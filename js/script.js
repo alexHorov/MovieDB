@@ -23,3 +23,6 @@ const movieDB = {
         "Скотт Пилигрим против..."
     ]
 };
+
+document.querySelector('.promo__adv').remove();
+movieDB.movies.sort();
