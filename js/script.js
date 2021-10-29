@@ -29,11 +29,16 @@ const genre = document.querySelector('.promo__genre'),
 
 movies.sort();
 
+
 console.log(movies);
 
 
-document.querySelector('.promo__adv').remove();
+const adv = document.querySelectorAll('.promo__adv img');
+adv.forEach(function(item) {
+    item.remove();
+});
 
-genre.innerHTML = '<div class="promo__genre">ДРАМА</div>';
+// genre.innerHTML = '<div class="promo__genre">ДРАМА</div>'; // мой вариант
+genre.textContent = 'драма';
 
 boxImg.style.cssText = 'background: url("img/bg.jpg") center center/cover no-repeat;';
