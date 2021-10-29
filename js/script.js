@@ -25,9 +25,10 @@ const movieDB = {
 };
 const genre = document.querySelector('.promo__genre'),
     boxImg = document.querySelector('.promo__bg'),
-    movies = movieDB['movies'];
+    movies = movieDB.movies;
 
 movies.sort();
+
 console.log(movies);
 
 
