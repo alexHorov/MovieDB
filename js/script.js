@@ -61,6 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 newFilm = `${newFilm.substring(0, 22)}...`;
             }
 
+            if (favorite) {
+                console.log("Добавляем любимый фильм");
+            }
+
             movieDB.movies.push(newFilm);
             sortArr(movieDB.movies);
             createMoviesList(movieDB.movies, moviesList);
@@ -89,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sortArr = (arr) => {
         arr.sort();
     };
-    sortArr(movieDB.movies);
+
 
 
 
@@ -103,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createMoviesList(films, parent) {
         parent.innerHTML = '';
+        sortArr(films);
 
         films.forEach((film, i) => {
             parent.innerHTML += `
@@ -120,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     };
+
     createMoviesList(movieDB.movies, moviesList);
 });
 // boxImg.style.cssText = 'background: url("img/bg.jpg") center center/cover no-repeat;'; // мой вариант
