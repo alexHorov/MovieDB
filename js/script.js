@@ -1,4 +1,4 @@
-/* Задания на урок:
+/* Задания на урок: 30
 
 1) Удалить все рекламные блоки со страницы (правая часть сайта)
 
@@ -12,43 +12,102 @@
 
 5) Добавить нумерацию выведенных фильмов */
 
+/* Задания на урок: 33
+
+1) Реализовать функционал, что после заполнения формы и нажатия кнопки "Подтвердить" - 
+новый фильм добавляется в список. Страница не должна перезагружаться.
+Новый фильм должен добавляться в movieDB.movies.
+Для получения доступа к значению input - обращаемся к нему как input.value;
+P.S. Здесь есть несколько вариантов решения задачи, принимается любой, но рабочий.
+
+2) Если название фильма больше, чем 21 символ - обрезать его и добавить три точки
+
+3) При клике на мусорную корзину - элемент будет удаляться из списка (сложно)
+
+4) Если в форме стоит галочка "Сделать любимым" - в консоль вывести сообщение: 
+"Добавляем любимый фильм"
+
+5) Фильмы должны быть отсортированы по алфавиту */
+
 'use strict';
 
-const movieDB = {
-    movies: [
-        "Логан",
-        "Лига справедливости",
-        "Ла-ла лэнд",
-        "Одержимость",
-        "Скотт Пилигрим против..."
-    ]
-};
-const adv = document.querySelectorAll('.promo__adv img'),
-    genre = document.querySelector('.promo__genre'),
-    poster = document.querySelector('.promo__bg'),
-    moviesList = document.querySelector('.promo__interactive-list');
-// movies = movieDB.movies;
+document.addEventListener('DOMContentLoaded', () => {
+    const movieDB = {
+        movies: [
+            "Логан",
+            "Лига справедливости",
+            "Ла-ла лэнд",
+            "Одержимость",
+            "Скотт Пилигрим против..."
+        ]
+    };
+    const adv = document.querySelectorAll('.promo__adv img'),
+        genre = document.querySelector('.promo__genre'),
+        poster = document.querySelector('.promo__bg'),
+        moviesList = document.querySelector('.promo__interactive-list'),
+        addForm = document.querySelector('form.add'),
+        addInput = addForm.querySelector(".adding__input"),
+        checkbox = addForm.querySelector('[type="checkbox"]');
 
-adv.forEach(function(item) {
-    item.remove();
-});
+    addForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Перезагрузку старнички
 
-// genre.innerHTML = '<div class="promo__genre">ДРАМА</div>'; // мой вариант
-genre.textContent = 'драма';
+        const newFilm = addInput.value;
+        if (newFilm) {
+            movieDB.movies.push(newFilm);
+            sortArr(movieDB.movies);
+            createMoviesList(movieDB.movies, moviesList);
+        }
 
-// poster.style.cssText = 'background: url("img/bg.jpg") center center/cover no-repeat;'; // мой вариант
-poster.style.backgroundImage = "url('img/bg.jpg')";
+        const favorite = checkbox.checked;
 
-console.log(moviesList);
-moviesList.innerHTML = '';
+        event.target.reset();
 
-movieDB.movies.sort();
-console.log(movieDB.movies);
+    });
 
-movieDB.movies.forEach((film, i) => {
-    moviesList.innerHTML += `
-<li class="promo__interactive-item">${i+1}.  ${film};
-<div class="delete"></div>
-</li>
-`;
-});
+    // movies = movieDB.movies;
+    const deleteAdv = (arr) => {
+        arr.forEach(function(item) {
+            item.remove();
+        });
+    };
+
+    deleteAdv(adv);
+
+    const makeChanges = () => {
+        genre.textContent = 'драма';
+        poster.style.backgroundImage = "url('img/bg.jpg')";
+    };
+    makeChanges();
+
+    const sortArr = (arr) => {
+        arr.sort();
+    }
+    sortArr(movieDB.movies);
+
+
+
+    // genre.innerHTML = '<div class="promo__genre">ДРАМА</div>'; // мой вариант
+
+    // poster.style.cssText = 'background: url("img/bg.jpg") center center/cover no-repeat;'; // мой вариант
+
+    // console.log(moviesList);
+
+    // movieDB.movies.sort();
+
+    function createMoviesList(films, parent) {
+        parent.innerHTML = '';
+
+
+        console.log(movieDB.movies);
+
+        films.forEach((film, i) => {
+            parent.innerHTML += `
+        <li class="promo__interactive-item">${i+1}.  ${film};
+        <div class="delete"></div>
+        </li>
+        `;
+        });
+    };
+    createMoviesList(movieDB.movies, moviesList);
+})
