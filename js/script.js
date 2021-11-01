@@ -52,18 +52,24 @@ document.addEventListener('DOMContentLoaded', () => {
     addForm.addEventListener('submit', (event) => {
         event.preventDefault(); // Перезагрузку старнички
 
-        const newFilm = addInput.value;
+        let newFilm = addInput.value;
+        const favorite = checkbox.checked;
+
+
         if (newFilm) {
+            if (newFilm.length > 21) {
+                newFilm = `${newFilm.substring(0, 22)}...`;
+            }
+
             movieDB.movies.push(newFilm);
             sortArr(movieDB.movies);
             createMoviesList(movieDB.movies, moviesList);
         }
 
-        const favorite = checkbox.checked;
-
-        event.target.reset();
+        event.target.reset(); //очитстит поле ввода ынпута
 
     });
+
 
     // movies = movieDB.movies;
     const deleteAdv = (arr) => {
@@ -82,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sortArr = (arr) => {
         arr.sort();
-    }
+    };
     sortArr(movieDB.movies);
 
 
@@ -98,9 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function createMoviesList(films, parent) {
         parent.innerHTML = '';
 
-
-        console.log(movieDB.movies);
-
         films.forEach((film, i) => {
             parent.innerHTML += `
         <li class="promo__interactive-item">${i+1}.  ${film};
@@ -108,6 +111,16 @@ document.addEventListener('DOMContentLoaded', () => {
         </li>
         `;
         });
+        document.querySelectorAll('.delete').forEach((btn, i) => {
+            btn.addEventListener('click', () => {
+                btn.parentElement.remove();
+                movieDB.movies.splice(i, 1);
+                createMoviesList(films, parent);
+            });
+        });
+
     };
     createMoviesList(movieDB.movies, moviesList);
-})
+});
+// boxImg.style.cssText = 'background: url("img/bg.jpg") center center/cover no-repeat;'; // мой вариант
+// boxImg.style.backgroundImage = 'url("img/bg.jpg")';
